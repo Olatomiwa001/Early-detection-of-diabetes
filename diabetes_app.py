@@ -17,165 +17,296 @@ st.set_page_config(
     page_title="Early Diabetes Detection System",
     page_icon="🩺",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"  # Better for mobile
 )
 
-# Custom CSS for modern styling
+# Mobile-optimized CSS with high contrast colors
 st.markdown("""
 <style>
     /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Global styling - Clean 3-color scheme */
+    /* Global styling - High contrast, mobile-first */
     .stApp {
-        font-family: 'Poppins', sans-serif;
-        background: #f8f9fa;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #ffffff;
+        color: #1a1a1a;
     }
     
-    /* Main container */
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .stApp {
+            background: #0f0f0f;
+            color: #ffffff;
+        }
+        
+        .main-header {
+            background: #1a1a1a !important;
+            border: 2px solid #333333 !important;
+        }
+        
+        .input-section, .result-section, .metric-card {
+            background: #1a1a1a !important;
+            border: 1px solid #333333 !important;
+            color: #ffffff !important;
+        }
+        
+        .stSelectbox > div > div, .stSlider > div > div {
+            background: #1a1a1a !important;
+            border: 1px solid #333333 !important;
+        }
+    }
+    
+    /* Main container - Mobile optimized */
     .main-header {
-        background: #2c3e50;
-        padding: 2rem;
-        border-radius: 15px;
-        margin-bottom: 2rem;
+        background: #000000;
+        color: #ffffff;
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border: 2px solid #000000;
     }
     
     .main-header h1 {
-        color: white;
-        font-size: 2.5rem;
+        color: #ffffff;
+        font-size: 1.8rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        line-height: 1.2;
     }
     
     .main-header p {
-        color: rgba(255,255,255,0.9);
-        font-size: 1.1rem;
+        color: #ffffff;
+        font-size: 0.9rem;
         margin-bottom: 0;
+        opacity: 0.9;
     }
     
-    /* Input section styling */
+    /* Input section - Mobile first */
     .input-section {
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        margin-bottom: 2rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+        margin-bottom: 1rem;
     }
     
     .input-section h2 {
-        color: #2c3e50;
+        color: #1a1a1a;
         font-weight: 600;
-        margin-bottom: 1.5rem;
-        border-bottom: 3px solid #3498db;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        border-bottom: 2px solid #000000;
         padding-bottom: 0.5rem;
+    }
+    
+    .input-section h3 {
+        color: #1a1a1a;
+        font-weight: 600;
+        margin: 1rem 0 0.5rem 0;
+        font-size: 1.1rem;
     }
     
     /* Results section */
     .result-section {
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        margin-top: 2rem;
+        background: #ffffff;
+        color: #1a1a1a;
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+        margin-top: 1rem;
     }
     
-    /* Risk level styling - Using only 3 colors */
+    .result-section h2 {
+        color: #1a1a1a;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+    
+    /* Risk level styling - High contrast */
     .risk-high {
-        background: #e74c3c;
-        color: white;
+        background: #dc2626;
+        color: #ffffff;
         padding: 1.5rem;
-        border-radius: 10px;
+        border-radius: 8px;
         text-align: center;
         margin: 1rem 0;
-        font-weight: 600;
-        font-size: 1.2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border: 2px solid #dc2626;
     }
     
     .risk-low {
-        background: #27ae60;
-        color: white;
+        background: #16a34a;
+        color: #ffffff;
         padding: 1.5rem;
-        border-radius: 10px;
+        border-radius: 8px;
         text-align: center;
         margin: 1rem 0;
-        font-weight: 600;
-        font-size: 1.2rem;
-    }
-    
-    /* Sidebar styling */
-    .sidebar .sidebar-content {
-        background: #2c3e50;
-    }
-    
-    /* Custom button */
-    .predict-button {
-        background: #3498db;
-        color: white;
-        padding: 1rem 2rem;
-        border: none;
-        border-radius: 50px;
+        font-weight: 700;
         font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        width: 100%;
-        margin: 1rem 0;
-        transition: all 0.3s ease;
+        border: 2px solid #16a34a;
     }
     
-    .predict-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    /* Info cards */
-    .info-card {
-        background: #3498db;
-        color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin: 1rem 0;
-        text-align: center;
-    }
-    
-    .info-card h3 {
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-    }
-    
-    /* Metric cards */
+    /* Metric cards - Mobile optimized */
     .metric-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        background: #ffffff;
+        color: #1a1a1a;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
         text-align: center;
-        margin: 0.5rem;
+        margin: 0.5rem 0;
     }
     
     .metric-value {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 700;
-        color: #2c3e50;
         margin-bottom: 0.5rem;
     }
     
     .metric-label {
-        color: #7f8c8d;
         font-size: 0.9rem;
         font-weight: 500;
+        opacity: 0.8;
     }
     
-    /* Model info section */
-    .model-info {
-        background: #3498db;
-        color: white;
+    /* Form styling */
+    .stForm {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+    
+    .stFormSubmitButton > button {
+        background: #000000 !important;
+        color: #ffffff !important;
+        border: 2px solid #000000 !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 8px !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+    
+    .stFormSubmitButton > button:hover {
+        background: #333333 !important;
+        border-color: #333333 !important;
+    }
+    
+    /* Sidebar optimization */
+    .sidebar .sidebar-content {
+        background: #f8f9fa;
+        color: #1a1a1a;
         padding: 1rem;
-        border-radius: 10px;
+    }
+    
+    /* Info sections */
+    .info-section {
+        background: #000000;
+        color: #ffffff;
+        padding: 1rem;
+        border-radius: 8px;
         margin: 1rem 0;
-        font-size: 0.9rem;
+        border: 2px solid #000000;
+    }
+    
+    .info-section h4 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .info-section ul {
+        margin-left: 1rem;
+        color: #ffffff;
+    }
+    
+    .info-section li {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Recommendations styling */
+    .recommendation-high {
+        background: #dc2626;
+        color: #ffffff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 2px solid #dc2626;
+    }
+    
+    .recommendation-low {
+        background: #16a34a;
+        color: #ffffff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 2px solid #16a34a;
+    }
+    
+    /* Mobile responsive adjustments */
+    @media (max-width: 768px) {
+        .main-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .main-header p {
+            font-size: 0.8rem;
+        }
+        
+        .input-section, .result-section {
+            padding: 1rem 0.75rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+        }
+        
+        .risk-high, .risk-low {
+            padding: 1rem;
+            font-size: 1rem;
+        }
+    }
+    
+    /* Streamlit element overrides */
+    .stSelectbox > div > div {
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 1px solid #d1d5db;
+    }
+    
+    .stSlider > div > div {
+        color: #1a1a1a;
+    }
+    
+    .stSlider .st-bb {
+        background: #000000;
+    }
+    
+    .stNumberInput > div > div {
+        background: #ffffff;
+        color: #1a1a1a;
+        border: 1px solid #d1d5db;
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        background: #f8f9fa;
+        color: #1a1a1a;
+        margin-top: 2rem;
+        border-top: 2px solid #e0e0e0;
+    }
+    
+    .footer p {
+        margin: 0.5rem 0;
+        font-weight: 500;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -183,177 +314,135 @@ st.markdown("""
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1>🩺 Early Detection of Diabetes Mellitus</h1>
-    <p>Feature Selection & Ensemble Models for Accurate Prediction</p>
+    <h1>🩺 Diabetes Detection System</h1>
+    <p>AI-Powered Early Screening & Risk Assessment</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar with project information
-with st.sidebar:
-    st.markdown("## 📊 Project Overview")
-    st.markdown("""
-    **Early Detection of Diabetes Mellitus Using Feature Selection and Ensemble Models**
-    
-    This ML system predicts diabetes risk using key health indicators and advanced ensemble modeling.
-    """)
-    
-    st.markdown("## 🤖 Model Architecture")
-    st.markdown("""
-    **Ensemble Voting Classifier** combining:
-    - 🌳 **Random Forest** - Tree-based ensemble
-    - 🚀 **AdaBoost** - Adaptive boosting
-    - ⚡ **XGBoost** - Gradient boosting
-    
-    **Feature Selection**: Recursive Feature Elimination (RFE)
-    """)
-    
-    st.markdown("## 📈 Dataset")
-    st.markdown("""
-    **PIMA Indian Diabetes Dataset**
-    - 768 samples
-    - 8 key health features
-    - Binary classification (Diabetic/Non-diabetic)
-    """)
-    
-    st.markdown("## 🎯 Why This Matters")
-    st.markdown("""
-    - Diabetes is rising globally
-    - Early detection saves lives
-    - AI-powered screening tools
-    - Real-time risk assessment
-    """)
-    
-    st.markdown("""
-    <div class="model-info">
-        <strong>🔬 Model Performance:</strong><br>
-        This ensemble model combines multiple algorithms for superior accuracy and reliability compared to single models.
-    </div>
-    """, unsafe_allow_html=True)
+# Check if mobile view (simplified layout)
+is_mobile = st.sidebar.checkbox("📱 Mobile View", value=True, help="Optimized for mobile devices")
 
-# Main content area
-col1, col2 = st.columns([2, 1])
-
-with col1:
+if is_mobile:
+    # Mobile-optimized single column layout
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
-    st.markdown("## 📝 Health Parameter Input")
-    st.markdown("*Enter your health metrics below. Our ensemble model will analyze patterns across multiple algorithms.*")
+    st.markdown("## 📝 Health Information")
     
-    # Create input form with better organization
+    # Create input form
     with st.form("diabetes_prediction_form"):
-        st.markdown("### 🩺 Primary Health Indicators")
-        col_a, col_b = st.columns(2)
+        st.markdown("### 🔍 Key Health Metrics")
         
-        with col_a:
-            pregnancies = st.number_input("🤰 Number of Pregnancies", min_value=0, max_value=20, value=1, 
-                                        help="Total number of pregnancies (important diabetes risk factor)")
-            glucose = st.slider("🍯 Plasma Glucose (mg/dL)", 0, 200, 100, 
-                              help="Glucose concentration after 2-hour oral glucose tolerance test")
-            blood_pressure = st.slider("❤️ Diastolic Blood Pressure (mm Hg)", 0, 140, 70, 
-                                     help="Diastolic blood pressure measurement")
-            skin_thickness = st.slider("📏 Triceps Skin Fold (mm)", 0, 100, 20, 
-                                     help="Triceps skin fold thickness measurement")
+        # Single column for mobile
+        pregnancies = st.number_input("🤰 Pregnancies", min_value=0, max_value=20, value=1)
+        glucose = st.slider("🍯 Glucose Level (mg/dL)", 0, 200, 100)
+        blood_pressure = st.slider("❤️ Blood Pressure (mm Hg)", 0, 140, 70)
+        skin_thickness = st.slider("📏 Skin Thickness (mm)", 0, 100, 20)
+        insulin = st.slider("💉 Insulin (μU/mL)", 0, 900, 85)
+        bmi = st.slider("⚖️ BMI", 0.0, 70.0, 25.0)
+        diabetes_pedigree = st.slider("🧬 Family History Score", 0.0, 2.5, 0.5)
+        age = st.slider("🎂 Age", 10, 100, 30)
         
-        with col_b:
-            insulin = st.slider("💉 2-Hour Serum Insulin (μU/mL)", 0, 900, 85, 
-                              help="Insulin level 2 hours after glucose load")
-            bmi = st.slider("⚖️ Body Mass Index (BMI)", 0.0, 70.0, 25.0, 
-                           help="Weight in kg/(height in m)²")
-            diabetes_pedigree = st.slider("🧬 Diabetes Pedigree Function", 0.0, 2.5, 0.5, 
-                                        help="Genetic predisposition score based on family history")
-            age = st.slider("🎂 Age (years)", 10, 100, 30, 
-                           help="Age in years")
-        
-        st.markdown("### 🔍 Analysis")
-        st.markdown("Our ensemble model will process these features through:")
-        st.markdown("- **Feature Selection**: RFE-optimized input processing")
-        st.markdown("- **Ensemble Prediction**: Combined Random Forest, AdaBoost & XGBoost")
-        st.markdown("- **Risk Stratification**: Probability-based assessment")
-        
-        # Custom predict button
-        predict_button = st.form_submit_button("🧠 Run Ensemble Analysis", use_container_width=True)
+        # Submit button
+        predict_button = st.form_submit_button("🧠 Analyze Risk")
     
     st.markdown('</div>', unsafe_allow_html=True)
-
-with col2:
-    # Real-time health metrics display
-    st.markdown("## 📊 Feature Analysis")
-    st.markdown("*Real-time assessment of key diabetes indicators*")
     
-    # BMI interpretation
+    # Real-time metrics display
+    st.markdown("## 📊 Health Indicators")
+    
+    # BMI Status
     if bmi < 18.5:
-        bmi_status = "Underweight"
-        bmi_color = "#3498db"
+        bmi_status, bmi_color = "Underweight", "#3b82f6"
     elif bmi < 25:
-        bmi_status = "Normal"
-        bmi_color = "#27ae60"
+        bmi_status, bmi_color = "Normal", "#16a34a"
     elif bmi < 30:
-        bmi_status = "Overweight"
-        bmi_color = "#3498db"
+        bmi_status, bmi_color = "Overweight", "#f59e0b"
     else:
-        bmi_status = "Obese"
-        bmi_color = "#e74c3c"
+        bmi_status, bmi_color = "Obese", "#dc2626"
     
-    # Display metrics
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-value" style="color: {bmi_color};">{bmi:.1f}</div>
-        <div class="metric-label">BMI Classification: {bmi_status}</div>
+        <div class="metric-label">BMI: {bmi_status}</div>
     </div>
     """, unsafe_allow_html=True)
     
-    # Glucose level interpretation
+    # Glucose Status
     if glucose < 100:
-        glucose_status = "Normal"
-        glucose_color = "#27ae60"
+        glucose_status, glucose_color = "Normal", "#16a34a"
     elif glucose < 126:
-        glucose_status = "Pre-diabetic"
-        glucose_color = "#3498db"
+        glucose_status, glucose_color = "Pre-diabetic", "#f59e0b"
     else:
-        glucose_status = "Diabetic Range"
-        glucose_color = "#e74c3c"
+        glucose_status, glucose_color = "High Risk", "#dc2626"
     
     st.markdown(f"""
     <div class="metric-card">
-        <div class="metric-value" style="color: {glucose_color};">{glucose}</div>
-        <div class="metric-label">Glucose Level: {glucose_status}</div>
+        <div class="metric-value" style="color: {glucose_color};">{glucose} mg/dL</div>
+        <div class="metric-label">Glucose: {glucose_status}</div>
     </div>
     """, unsafe_allow_html=True)
     
-    # Blood pressure interpretation
+    # Blood Pressure Status
     if blood_pressure < 80:
-        bp_status = "Normal"
-        bp_color = "#27ae60"
+        bp_status, bp_color = "Normal", "#16a34a"
     elif blood_pressure < 90:
-        bp_status = "Stage 1 HTN"
-        bp_color = "#3498db"
+        bp_status, bp_color = "Elevated", "#f59e0b"
     else:
-        bp_status = "Stage 2 HTN"
-        bp_color = "#e74c3c"
+        bp_status, bp_color = "High", "#dc2626"
     
     st.markdown(f"""
     <div class="metric-card">
-        <div class="metric-value" style="color: {bp_color};">{blood_pressure}</div>
-        <div class="metric-label">Blood Pressure: {bp_status}</div>
+        <div class="metric-value" style="color: {bp_color};">{blood_pressure} mmHg</div>
+        <div class="metric-label">BP: {bp_status}</div>
     </div>
     """, unsafe_allow_html=True)
+
+else:
+    # Desktop layout (original two-column design)
+    col1, col2 = st.columns([2, 1])
     
-    # Age risk factor
-    if age < 45:
-        age_risk = "Low Risk"
-        age_color = "#27ae60"
-    elif age < 65:
-        age_risk = "Moderate Risk"
-        age_color = "#3498db"
-    else:
-        age_risk = "High Risk"
-        age_color = "#e74c3c"
+    with col1:
+        st.markdown('<div class="input-section">', unsafe_allow_html=True)
+        st.markdown("## 📝 Health Parameter Input")
+        
+        with st.form("diabetes_prediction_form"):
+            st.markdown("### 🩺 Primary Health Indicators")
+            col_a, col_b = st.columns(2)
+            
+            with col_a:
+                pregnancies = st.number_input("🤰 Pregnancies", min_value=0, max_value=20, value=1)
+                glucose = st.slider("🍯 Glucose (mg/dL)", 0, 200, 100)
+                blood_pressure = st.slider("❤️ Blood Pressure (mm Hg)", 0, 140, 70)
+                skin_thickness = st.slider("📏 Skin Thickness (mm)", 0, 100, 20)
+            
+            with col_b:
+                insulin = st.slider("💉 Insulin (μU/mL)", 0, 900, 85)
+                bmi = st.slider("⚖️ BMI", 0.0, 70.0, 25.0)
+                diabetes_pedigree = st.slider("🧬 Family History", 0.0, 2.5, 0.5)
+                age = st.slider("🎂 Age", 10, 100, 30)
+            
+            predict_button = st.form_submit_button("🧠 Analyze Risk")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown(f"""
-    <div class="metric-card">
-        <div class="metric-value" style="color: {age_color};">{age}</div>
-        <div class="metric-label">Age Factor: {age_risk}</div>
-    </div>
-    """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("## 📊 Health Metrics")
+        
+        # Similar metric cards as mobile version
+        if bmi < 18.5:
+            bmi_status, bmi_color = "Underweight", "#3b82f6"
+        elif bmi < 25:
+            bmi_status, bmi_color = "Normal", "#16a34a"
+        elif bmi < 30:
+            bmi_status, bmi_color = "Overweight", "#f59e0b"
+        else:
+            bmi_status, bmi_color = "Obese", "#dc2626"
+        
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-value" style="color: {bmi_color};">{bmi:.1f}</div>
+            <div class="metric-label">BMI: {bmi_status}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Prediction results
 if predict_button:
@@ -375,171 +464,131 @@ if predict_button:
     proba = model.predict_proba(input_data)[0][1] * 100
     
     st.markdown('<div class="result-section">', unsafe_allow_html=True)
-    st.markdown("## 🎯 Ensemble Model Prediction Results")
-    st.markdown("*Analysis completed using Random Forest + AdaBoost + XGBoost ensemble*")
+    st.markdown("## 🎯 Risk Assessment Results")
     
-    # Create columns for results
-    result_col1, result_col2 = st.columns([1, 1])
-    
-    with result_col1:
-        if prediction == 1:
-            st.markdown(f"""
-            <div class="risk-high">
-                ⚠️ HIGH DIABETES RISK DETECTED<br>
-                <span style="font-size: 2rem; font-weight: 700;">{proba:.1f}%</span><br>
-                Ensemble Confidence Score
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown(f"""
-            <div class="risk-low">
-                ✅ LOW DIABETES RISK<br>
-                <span style="font-size: 2rem; font-weight: 700;">{100-proba:.1f}%</span><br>
-                Healthy Classification
-            </div>
-            """, unsafe_allow_html=True)
-    
-    with result_col2:
-        # Create a gauge chart
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number",
-            value = proba,
-            domain = {'x': [0, 1], 'y': [0, 1]},
-            title = {'text': "Ensemble Risk Score (%)"},
-            gauge = {
-                'axis': {'range': [None, 100]},
-                'bar': {'color': "#2c3e50"},
-                'steps': [
-                    {'range': [0, 30], 'color': "#27ae60"},
-                    {'range': [30, 70], 'color': "#3498db"},
-                    {'range': [70, 100], 'color': "#e74c3c"}
-                ],
-                'threshold': {
-                    'line': {'color': "red", 'width': 4},
-                    'thickness': 0.75,
-                    'value': 80
-                }
-            }
-        ))
-        
-        fig.update_layout(
-            height=300,
-            margin=dict(l=20, r=20, t=40, b=20),
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)"
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
-    
-    # Model explanation
-    st.markdown("## 🧠 Ensemble Model Analysis")
-    st.markdown("""
-    **How our ensemble works:**
-    - **Random Forest**: Analyzes feature interactions through decision trees
-    - **AdaBoost**: Focuses on misclassified cases for improved accuracy  
-    - **XGBoost**: Optimizes gradient boosting for pattern recognition
-    - **Voting Classifier**: Combines all three predictions for final result
-    """)
-    
-    # Recommendations
-    st.markdown("## 💡 Clinical Recommendations")
-    
+    # Results display
     if prediction == 1:
+        st.markdown(f"""
+        <div class="risk-high">
+            ⚠️ HIGH DIABETES RISK<br>
+            <strong style="font-size: 1.5rem;">{proba:.1f}%</strong><br>
+            Risk Probability
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # High risk recommendations
         st.markdown("""
-        <div style="background: #e74c3c; padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
-            <h4 style="color: white; margin-bottom: 1rem;">🚨 Immediate Clinical Action Required</h4>
-            <ul style="color: white; margin-left: 1rem;">
-                <li><strong>Schedule immediate consultation with endocrinologist</strong></li>
-                <li>Request comprehensive diabetes panel (HbA1c, fasting glucose, OGTT)</li>
-                <li>Implement continuous glucose monitoring if indicated</li>
-                <li>Begin structured lifestyle intervention program</li>
-                <li>Cardiovascular risk stratification assessment</li>
-                <li>Consider pharmacological intervention based on clinical guidelines</li>
+        <div class="recommendation-high">
+            <h4>🚨 Immediate Action Required</h4>
+            <ul>
+                <li><strong>Schedule doctor consultation immediately</strong></li>
+                <li>Request comprehensive diabetes screening (HbA1c, fasting glucose)</li>
+                <li>Begin lifestyle modifications (diet, exercise)</li>
+                <li>Monitor blood glucose regularly</li>
+                <li>Consider family history discussion with healthcare provider</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
+        
     else:
+        st.markdown(f"""
+        <div class="risk-low">
+            ✅ LOW DIABETES RISK<br>
+            <strong style="font-size: 1.5rem;">{100-proba:.1f}%</strong><br>
+            Healthy Status
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Low risk recommendations
         st.markdown("""
-        <div style="background: #27ae60; padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
-            <h4 style="color: white; margin-bottom: 1rem;">✅ Preventive Health Measures</h4>
-            <ul style="color: white; margin-left: 1rem;">
-                <li>Maintain structured dietary pattern (Mediterranean/DASH diet)</li>
-                <li>Regular aerobic exercise (150 min/week moderate intensity)</li>
-                <li>Annual metabolic screening (glucose, HbA1c, lipid profile)</li>
+        <div class="recommendation-low">
+            <h4>✅ Preventive Health Measures</h4>
+            <ul>
+                <li>Maintain healthy diet and regular exercise</li>
+                <li>Annual health check-ups and glucose screening</li>
                 <li>Weight management (target BMI 18.5-24.9)</li>
-                <li>Blood pressure monitoring and management</li>
-                <li>Family history documentation and genetic counseling if indicated</li>
+                <li>Blood pressure monitoring</li>
+                <li>Continue healthy lifestyle habits</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
     
-    # Feature importance visualization
-    st.markdown("## 📊 Feature Importance Analysis")
-    st.markdown("*Relative contribution of each health parameter to the prediction*")
+    # Risk meter visualization
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = proba,
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "Risk Score (%)", 'font': {'size': 16, 'color': '#1a1a1a'}},
+        gauge = {
+            'axis': {'range': [None, 100], 'tickfont': {'color': '#1a1a1a'}},
+            'bar': {'color': "#1a1a1a"},
+            'steps': [
+                {'range': [0, 30], 'color': "#16a34a"},
+                {'range': [30, 70], 'color': "#f59e0b"},
+                {'range': [70, 100], 'color': "#dc2626"}
+            ],
+            'threshold': {
+                'line': {'color': "#1a1a1a", 'width': 4},
+                'thickness': 0.75,
+                'value': 50
+            }
+        }
+    ))
     
-    # Calculate feature importance (normalized by clinical significance)
-    feature_weights = {
-        'Glucose': glucose / 200 * 100,
-        'BMI': min(bmi / 40 * 100, 100),
-        'Age': age / 100 * 100,
-        'Diabetes Pedigree': diabetes_pedigree / 2.5 * 100,
-        'Blood Pressure': blood_pressure / 140 * 100,
-        'Insulin': min(insulin / 900 * 100, 100),
-        'Pregnancies': min(pregnancies / 10 * 100, 100),
-        'Skin Thickness': skin_thickness / 100 * 100
-    }
-    
-    # Create horizontal bar chart
-    fig_bar = px.bar(
-        x=list(feature_weights.values()),
-        y=list(feature_weights.keys()),
-        orientation='h',
-        title="Feature Contribution Analysis (Normalized %)",
-        color=list(feature_weights.values()),
-        color_continuous_scale=["#27ae60", "#3498db", "#e74c3c"]
-    )
-    
-    fig_bar.update_layout(
-        height=400,
+    fig.update_layout(
+        height=300,
         margin=dict(l=20, r=20, t=40, b=20),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        title_font_size=16,
-        showlegend=False
+        font=dict(color='#1a1a1a')
     )
     
-    st.plotly_chart(fig_bar, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
     
-    # Technical details
-    st.markdown("## 🔬 Technical Implementation")
-    col_tech1, col_tech2 = st.columns(2)
-    
-    with col_tech1:
-        st.markdown("""
-        **Machine Learning Pipeline:**
-        - Dataset: PIMA Indian Diabetes (768 samples)
-        - Feature Selection: Recursive Feature Elimination
-        - Cross-validation: 5-fold stratified
-        - Ensemble Method: Soft voting classifier
-        """)
-    
-    with col_tech2:
-        st.markdown("""
-        **Model Performance Metrics:**
-        - Accuracy: Enhanced through ensemble voting
-        - Precision: Optimized for clinical sensitivity
-        - Recall: Balanced for false negative minimization
-        - F1-Score: Harmonic mean optimization
-        """)
+    # Technical information
+    st.markdown("## 🔬 Model Information")
+    st.markdown("""
+    <div class="info-section">
+        <h4>🤖 AI Model Details</h4>
+        <p><strong>Algorithm:</strong> Ensemble Machine Learning (Random Forest + AdaBoost + XGBoost)</p>
+        <p><strong>Dataset:</strong> PIMA Indian Diabetes Dataset (768 samples)</p>
+        <p><strong>Feature Selection:</strong> Recursive Feature Elimination (RFE)</p>
+        <p><strong>Validation:</strong> 5-fold cross-validation</p>
+        <p><strong>Performance:</strong> Optimized for medical screening accuracy</p>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
 
+# Sidebar with information
+with st.sidebar:
+    st.markdown("## 📋 About This System")
+    st.markdown("""
+    **Early Detection of Diabetes Mellitus**
+    
+    This AI system uses ensemble machine learning to assess diabetes risk based on key health indicators.
+    """)
+    
+    st.markdown("## 🎯 Key Features")
+    st.markdown("""
+    - **Ensemble ML**: Multiple algorithms for accuracy
+    - **Feature Selection**: Optimized input processing
+    - **Real-time Analysis**: Instant risk assessment
+    - **Mobile Optimized**: Works on all devices
+    """)
+    
+    st.markdown("## ⚠️ Important Notice")
+    st.markdown("""
+    This tool is for **screening purposes only** and should not replace professional medical advice. 
+    
+    Always consult with healthcare providers for proper diagnosis and treatment.
+    """)
+
 # Footer
 st.markdown("""
-<div style="text-align: center; padding: 2rem; color: black; margin-top: 3rem;">
-    <p style="font-weight: bold;">🩺 Early Detection of Diabetes Mellitus | ML Ensemble System</p>
-    <p style="font-size: 0.9rem; font-weight: bold;">
-        Research Project: Feature Selection & Ensemble Models | Last updated: """ + datetime.now().strftime("%B %d, %Y") + """
-    </p>
+<div class="footer">
+    <p><strong>🩺 Diabetes Detection System | AI-Powered Health Screening</strong></p>
+    <p>Research Project: Machine Learning for Early Disease Detection</p>
+    <p>Last Updated: """ + datetime.now().strftime("%B %d, %Y") + """</p>
 </div>
 """, unsafe_allow_html=True)
