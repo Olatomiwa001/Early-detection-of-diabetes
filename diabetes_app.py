@@ -259,7 +259,7 @@ st.markdown("""
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1>🩺 Detection of Diabetes System</h1>
+    <h1>🩺 Diabetes Detection System</h1>
     <p>Early Detection of Diabetes Mellitus using Feature Selection and Ensemble Models</p>
 </div>
 """, unsafe_allow_html=True)
@@ -451,88 +451,79 @@ if predict_button:
         </div>
         """, unsafe_allow_html=True)
     
-    # Enhanced risk meter visualization - mobile optimized
-    # Get theme colors for better visibility
-    theme_colors = {
-        'background': 'rgba(0,0,0,0)',
-        'text': '#262730',
-        'grid': '#e1e5e9'
-    }
-    
+    # Enhanced risk meter visualization - mobile optimized with high contrast
+    # Dynamic colors based on Streamlit theme
     fig = go.Figure(go.Indicator(
-        mode = "gauge+number+delta",
+        mode = "gauge+number",
         value = proba,
         domain = {'x': [0, 1], 'y': [0, 1]},
         title = {
             'text': "Diabetes Risk Score (%)", 
-            'font': {'size': 18, 'color': theme_colors['text'], 'family': 'Inter'}
+            'font': {'size': 20, 'color': 'white', 'family': 'Inter, sans-serif'}
         },
         number = {
-            'font': {'size': 32, 'color': theme_colors['text'], 'family': 'Inter'},
+            'font': {'size': 36, 'color': 'white', 'family': 'Inter, sans-serif'},
             'suffix': '%'
         },
         gauge = {
             'axis': {
                 'range': [None, 100], 
-                'tickwidth': 2,
-                'tickcolor': theme_colors['grid'],
-                'tickfont': {'color': theme_colors['text'], 'size': 14}
+                'tickwidth': 3,
+                'tickcolor': 'white',
+                'tickfont': {'color': 'white', 'size': 16, 'family': 'Inter'}
             },
-            'bar': {'color': "#667eea", 'thickness': 0.3},
-            'bgcolor': "white",
-            'borderwidth': 2,
-            'bordercolor': theme_colors['grid'],
+            'bar': {'color': "#4f46e5", 'thickness': 0.4},
+            'bgcolor': "#1f2937",
+            'borderwidth': 3,
+            'bordercolor': "white",
             'steps': [
-                {'range': [0, 30], 'color': "#dcfce7"},
-                {'range': [30, 70], 'color': "#fef3c7"},
-                {'range': [70, 100], 'color': "#fee2e2"}
+                {'range': [0, 30], 'color': "#10b981"},
+                {'range': [30, 70], 'color': "#f59e0b"},
+                {'range': [70, 100], 'color': "#ef4444"}
             ],
             'threshold': {
-                'line': {'color': theme_colors['text'], 'width': 4},
-                'thickness': 0.8,
+                'line': {'color': "white", 'width': 5},
+                'thickness': 0.9,
                 'value': 50
             }
         }
     ))
     
     fig.update_layout(
-        height=350,
-        margin=dict(l=30, r=30, t=50, b=30),
-        paper_bgcolor=theme_colors['background'],
-        plot_bgcolor=theme_colors['background'],
-        font=dict(color=theme_colors['text'], family='Inter'),
-        autosize=True
+        height=400,
+        margin=dict(l=20, r=20, t=60, b=20),
+        paper_bgcolor="#1f2937",
+        plot_bgcolor="#1f2937",
+        font=dict(color='white', family='Inter, sans-serif'),
+        autosize=True,
+        showlegend=False
     )
     
     st.plotly_chart(fig, use_container_width=True)
     
-    # Add risk interpretation
+    # Add risk interpretation with high contrast for mobile
     st.markdown("### 📊 Risk Interpretation")
-    col1, col2, col3 = st.columns(3)
     
-    with col1:
-        st.markdown("""
-        <div style="text-align: center; padding: 1rem; background: #dcfce7; border-radius: 8px; margin: 0.5rem 0;">
-            <strong style="color: #166534;">Low Risk</strong><br>
-            <span style="color: #166534; font-size: 0.9rem;">0-30%</span>
+    # Container for better mobile visibility
+    st.markdown("""
+    <div style="background: #1f2937; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; border: 2px solid #374151;">
+        <h4 style="color: white; text-align: center; margin-bottom: 1rem; font-size: 1.2rem;">Risk Level Guide</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-around;">
+            <div style="flex: 1; min-width: 120px; text-align: center; padding: 1rem; background: #10b981; border-radius: 8px; margin: 0.25rem;">
+                <strong style="color: white; font-size: 1rem;">Low Risk</strong><br>
+                <span style="color: white; font-size: 0.9rem; font-weight: 500;">0-30%</span>
+            </div>
+            <div style="flex: 1; min-width: 120px; text-align: center; padding: 1rem; background: #f59e0b; border-radius: 8px; margin: 0.25rem;">
+                <strong style="color: white; font-size: 1rem;">Moderate Risk</strong><br>
+                <span style="color: white; font-size: 0.9rem; font-weight: 500;">30-70%</span>
+            </div>
+            <div style="flex: 1; min-width: 120px; text-align: center; padding: 1rem; background: #ef4444; border-radius: 8px; margin: 0.25rem;">
+                <strong style="color: white; font-size: 1rem;">High Risk</strong><br>
+                <span style="color: white; font-size: 0.9rem; font-weight: 500;">70-100%</span>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="text-align: center; padding: 1rem; background: #fef3c7; border-radius: 8px; margin: 0.5rem 0;">
-            <strong style="color: #92400e;">Moderate Risk</strong><br>
-            <span style="color: #92400e; font-size: 0.9rem;">30-70%</span>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div style="text-align: center; padding: 1rem; background: #fee2e2; border-radius: 8px; margin: 0.5rem 0;">
-            <strong style="color: #dc2626;">High Risk</strong><br>
-            <span style="color: #dc2626; font-size: 0.9rem;">70-100%</span>
-        </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     
     # Technical information
     st.markdown('<h2 class="section-header">🔬 Model Information</h2>', unsafe_allow_html=True)
