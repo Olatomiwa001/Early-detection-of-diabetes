@@ -565,8 +565,9 @@ with st.sidebar:
 # Footer
 st.markdown("""
 <div class="footer">
-    <p><strong>🩺 Diabetes Detection System | AI-Powered Health Screening</strong></p>
-    <p>Research Project: Machine Learning for Early Disease Detection</p>
+    <p><strong>🩺 Early Detection of Diabetes Mellitus</strong></p>
+    <p>Research Project: Early Detection of Diabetes Mellitus using Feature Selection and Ensemble Models</p>
+    <p>Developed by: Group 2 Under Mr S.J Agbolade</p>
     <p>Last Updated: """ + datetime.now().strftime("%B %d, %Y") + """</p>
 </div>
 """, unsafe_allow_html=True)
