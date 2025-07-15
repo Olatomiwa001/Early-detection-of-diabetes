@@ -265,7 +265,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Check if mobile view (simplified layout)
-is_mobile = st.sidebar.checkbox("📱 Mobile View", value=True, help="Optimized for mobile devices")
+is_mobile = st.sidebar.checkbox(" Mobile View", value=True, help="Optimized for mobile devices")
 
 if is_mobile:
     # Mobile-optimized single column layout
@@ -273,23 +273,23 @@ if is_mobile:
     
     # Create input form
     with st.form("diabetes_prediction_form"):
-        st.markdown("### 🔍 Key Health Metrics")
+        st.markdown("### Key Health Metrics")
         
         # Single column for mobile
-        pregnancies = st.number_input("🤰 Pregnancies", min_value=0, max_value=20, value=1)
-        glucose = st.slider("🍯 Glucose Level (mg/dL)", 0, 200, 100)
-        blood_pressure = st.slider("❤️ Blood Pressure (mm Hg)", 0, 140, 70)
-        skin_thickness = st.slider("📏 Skin Thickness (mm)", 0, 100, 20)
-        insulin = st.slider("💉 Insulin (μU/mL)", 0, 900, 85)
-        bmi = st.slider("⚖️ BMI", 0.0, 70.0, 25.0)
-        diabetes_pedigree = st.slider("🧬 Family History Score", 0.0, 2.5, 0.5)
-        age = st.slider("🎂 Age", 10, 100, 30)
+        pregnancies = st.number_input("Pregnancies", min_value=0, max_value=20, value=1)
+        glucose = st.slider("Glucose Level (mg/dL)", 0, 200, 100)
+        blood_pressure = st.slider("Blood Pressure (mm Hg)", 0, 140, 70)
+        skin_thickness = st.slider("Skin Thickness (mm)", 0, 100, 20)
+        insulin = st.slider("Insulin (μU/mL)", 0, 900, 85)
+        bmi = st.slider("BMI", 0.0, 70.0, 25.0)
+        diabetes_pedigree = st.slider("Family History Score", 0.0, 2.5, 0.5)
+        age = st.slider("Age", 10, 100, 30)
         
         # Submit button
-        predict_button = st.form_submit_button("🧠 Analyze Risk")
+        predict_button = st.form_submit_button("Analyze Risk")
     
     # Real-time metrics display
-    st.markdown('<h2 class="section-header">📊 Health Indicators</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="section-header">Health Indicators</h2>', unsafe_allow_html=True)
     
     # BMI Status
     if bmi < 18.5:
@@ -350,21 +350,21 @@ else:
             col_a, col_b = st.columns(2)
             
             with col_a:
-                pregnancies = st.number_input("🤰 Pregnancies", min_value=0, max_value=20, value=1)
-                glucose = st.slider("🍯 Glucose (mg/dL)", 0, 200, 100)
-                blood_pressure = st.slider("❤️ Blood Pressure (mm Hg)", 0, 140, 70)
-                skin_thickness = st.slider("📏 Skin Thickness (mm)", 0, 100, 20)
+                pregnancies = st.number_input(" Pregnancies", min_value=0, max_value=20, value=1)
+                glucose = st.slider(" Glucose (mg/dL)", 0, 200, 100)
+                blood_pressure = st.slider(" Blood Pressure (mm Hg)", 0, 140, 70)
+                skin_thickness = st.slider(" Skin Thickness (mm)", 0, 100, 20)
             
             with col_b:
-                insulin = st.slider("💉 Insulin (μU/mL)", 0, 900, 85)
-                bmi = st.slider("⚖️ BMI", 0.0, 70.0, 25.0)
-                diabetes_pedigree = st.slider("🧬 Family History", 0.0, 2.5, 0.5)
-                age = st.slider("🎂 Age", 10, 100, 30)
+                insulin = st.slider(" Insulin (μU/mL)", 0, 900, 85)
+                bmi = st.slider("BMI", 0.0, 70.0, 25.0)
+                diabetes_pedigree = st.slider(" Family History", 0.0, 2.5, 0.5)
+                age = st.slider(" Age", 10, 100, 30)
             
-            predict_button = st.form_submit_button("🧠 Analyze Risk")
+            predict_button = st.form_submit_button("Analyze Risk")
     
     with col2:
-        st.markdown('<h2 class="section-header">📊 Health Metrics</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 class="section-header"> Health Metrics</h2>', unsafe_allow_html=True)
         
         # Similar metric cards as mobile version
         if bmi < 18.5:
@@ -402,13 +402,13 @@ if predict_button:
     prediction = model.predict(input_data)[0]
     proba = model.predict_proba(input_data)[0][1] * 100
     
-    st.markdown('<h2 class="section-header">🎯 Risk Assessment Results</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="section-header"> Risk Assessment Results</h2>', unsafe_allow_html=True)
     
     # Results display
     if prediction == 1:
         st.markdown(f"""
         <div class="risk-result risk-high">
-            ⚠️ HIGH DIABETES RISK<br>
+             HIGH DIABETES RISK<br>
             <strong style="font-size: 1.8rem;">{proba:.1f}%</strong><br>
             Risk Probability
         </div>
@@ -417,7 +417,7 @@ if predict_button:
         # High risk recommendations
         st.markdown("""
         <div class="recommendation recommendation-high">
-            <h4>🚨 Immediate Action Required</h4>
+            <h4>Immediate Action Required</h4>
             <ul>
                 <li><strong>Schedule doctor consultation immediately</strong></li>
                 <li>Request comprehensive diabetes screening (HbA1c, fasting glucose)</li>
@@ -502,7 +502,7 @@ if predict_button:
     st.plotly_chart(fig, use_container_width=True)
     
     # Add risk interpretation with high contrast for mobile
-    st.markdown("### 📊 Risk Interpretation")
+    st.markdown("###  Risk Interpretation")
     
     # Container for better mobile visibility
     st.markdown("""
@@ -529,7 +529,7 @@ if predict_button:
     st.markdown('<h2 class="section-header">🔬 Model Information</h2>', unsafe_allow_html=True)
     st.markdown("""
     <div class="info-section">
-        <h4>🤖 AI Model Details</h4>
+        <h4> AI Model Details</h4>
         <p><strong>Algorithm:</strong> Ensemble Machine Learning (Random Forest + AdaBoost + XGBoost)</p>
         <p><strong>Dataset:</strong> PIMA Indian Diabetes Dataset (768 samples)</p>
         <p><strong>Feature Selection:</strong> Recursive Feature Elimination (RFE)</p>
@@ -567,7 +567,7 @@ st.markdown("""
 <div class="footer">
     <p><strong>🩺 Early Detection of Diabetes Mellitus</strong></p>
     <p>Research Project: Early Detection of Diabetes Mellitus using Feature Selection and Ensemble Models</p>
-    <p>Developed by: Group 2 Under Mr S.J Agbolade</p>
+    <p>Developed by: OYEBAMIJI SAMUEL OLATOMIWA (RUN/CMP/21/10963), HENMAUGO SENAYON JAMES (RUN/CMP/21/10870), OLANIPEKUN TOLUWANIMI VICTOR (RUN/CMP/21/10908) Under Mr S.J Agbolade</p>
     <p>Last Updated: """ + datetime.now().strftime("%B %d, %Y") + """</p>
 </div>
 """, unsafe_allow_html=True)
