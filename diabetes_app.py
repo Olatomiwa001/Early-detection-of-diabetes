@@ -361,7 +361,7 @@ else:
                 diabetes_pedigree = st.slider(" Family History", 0.0, 2.5, 0.5)
                 age = st.slider(" Age", 10, 100, 30)
             
-            predict_button = st.form_submit_button("Analyze Risk")
+            predict_button = st.form_submit_button("Predict Risk")
     
     with col2:
         st.markdown('<h2 class="section-header"> Health Metrics</h2>', unsafe_allow_html=True)
